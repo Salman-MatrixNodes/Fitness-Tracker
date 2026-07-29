@@ -1,14 +1,15 @@
-// Filter exercises by target muscle
-export const filterByTarget = (exercises, targetMuscle) => {
-    return exercises.filter(ex => ex.target.toLowerCase()===targetMuscle.toLowerCase());
-}
+// Defensive check added: exercises = []
+export const filterByTarget = (exercises = [], targetMuscle = "") => {
+    if (!Array.isArray(exercises)) return [];
+    return exercises.filter(ex => ex.target.toLowerCase() === targetMuscle.toLowerCase());
+};
 
-// Calculate total workout time
-export const calculateTotalTime = (exercises) => {
-    return exercises.reduce((acc, current) => acc + current.durationMins, 0);
-}
+export const calculateTotalTime = (exercises = []) => {
+    if (!Array.isArray(exercises)) return 0;
+    return exercises.reduce((acc, current) => acc + (current.durationMins || 0), 0);
+};
 
-// Sort exercises by rating
-export const sortByRating = (exercises) => {
-    return [...exercises].sort((a,b)=> b.rating-a.rating);
-}
+export const sortByRating = (exercises = []) => {
+    if (!Array.isArray(exercises)) return [];
+    return [...exercises].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+};

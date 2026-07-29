@@ -27,3 +27,17 @@ console.log(`\n4. Total Workout Time (reduce): ${totalWorkoutTime} minutes`);
 // We use [...exercises] to create a copy and prevent mutating the original array
 const  sortedByRating = [...exercises].sort((a,b)=> b.rating - a.rating);
 console.log("\n5. Sorted by Highest Rating (sort):", sortedByRating);
+
+async function greet() {
+    return "Hello";
+}
+
+console.log(greet());
+
+async function getData() {
+    return 100;
+}
+
+getData().then((data) => {
+    console.log(data);
+});

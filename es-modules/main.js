@@ -3,7 +3,7 @@ import { fetchExercises } from "./api.js";
 import { filterByTarget,calculateTotalTime,sortByRating } from "./helpers.js";
 import { exerciseList } from "./ui.js";
 
-function FitnessApp() {
+async function FitnessApp() {
 
     // 1. Fetch Data
     const exercises = fetchExercises();
