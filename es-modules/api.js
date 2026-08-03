@@ -22,7 +22,7 @@ export const fetchExercises = async () => {
         }
         const textData = await response.text();
 
-        if(textData || textData.trim() === "") {
+        if(!textData || textData.trim() === "") {
             throw new Error("Empty response body received from API!");
         }
         const data = JSON.parse(textData);
@@ -50,5 +50,4 @@ export const fetchExercises = async () => {
             { id: "ex-5", name: "Bicep Curls", target: "Arms", durationMins: 10, rating: 4.0 }
         ];
     }
-    return mockExercises;
 }

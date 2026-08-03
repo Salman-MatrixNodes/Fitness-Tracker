@@ -2,10 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fitness Tracker ES Modules</title>
+    <title>Fitness Tracker - FA-006 Dynamic Render</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .stats-summary {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .workout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .workout-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-left: 6px solid #4CAF50;
+            transition: transform 0.2s ease-in-out;
+        }
+        .workout-card:hover {
+            transform: translateY(-5px);
+        }
+        .workout-card h3 {
+            margin: 0 0 10px 0;
+            color: #2c3e50;
+        }
+        .workout-card p {
+            margin: 6px 0;
+            color: #555;
+            font-size: 0.95rem;
+        }
+        .badge {
+            display: inline-block;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Fitness Tracker ES Modules Demo</h1>
+    <h1 id="app-title">Fitness Tracker ES Modules Demo</h1>
+    <!-- <div id="stats-summary" class="stats-summary">Loading stats...</div> -->
+
+    <div class="workout-grid" id="workout-container">
+        <p>Loading exercises from API...</p>
+    </div>
     <script type="module" src="./main.js"></script>
 </body>
 </html>
