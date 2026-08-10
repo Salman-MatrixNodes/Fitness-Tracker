@@ -1,30 +1,54 @@
-import { DEFAULT_TARGET_MUSCLE } from "./constants.js";
 import { fetchExercises } from "./api.js";
-import { filterByTarget,calculateTotalTime,sortByRating } from "./helpers.js";
+import { filterByTarget, calculateTotalTime, sortByRating, searchByName } from "./helpers.js";
 import { exerciseList, renderTitle } from "./ui.js";
 
-async function FitnessApp() {
+let allExercises = [];
 
+async function FitnessApp() {
     renderTitle();
 
     // 1. Fetch Data
-    const exercises = await fetchExercises();
+    allExercises = await fetchExercises();
 
-    // 2. Render all exercises  
-    exerciseList(exercises);
+    // 2. Initial Render
+    renderDynamicUI();
 
-    // 3. Filter Chest Exercises
-    // const chestWorkouts = filterByTarget(exercises, DEFAULT_TARGET_MUSCLE);
-    // exerciseList(`Filtered: ${DEFAULT_TARGET_MUSCLE} workouts`,chestWorkouts);
-
-    // 4. Calculate Total Time
-    // const totalMins = calculateTotalTime(exercises);
-    // console.log(`Total Workout Duration: ${totalMins} Mins\n`);
-
-    // 5. Sorted by Rating
-    // const sorted = sortByRating(exercises);
-    // exerciseList("Top Rated Workouts", sorted);
-
+    // 3. Set Event Listeners
+    setupEventListeners();
 }
-// Execute the application
+
+function renderDynamicUI() {
+    const searchEl = document.getElementById('search-input');
+    const filterEl = document.getElementById('filter-select');
+    const sortEl = document.getElementById('sort-select');
+
+    // Safe extraction of values
+    const searchTerm = searchEl ? searchEl.value : "";
+    const filterValue = filterEl ? filterEl.value : "All";
+    const sortValue = sortEl ? sortEl.value : "default";
+
+    // Data Processing Pipeline
+    let processedData = searchByName(allExercises, searchTerm);
+    processedData = filterByTarget(processedData, filterValue);
+    processedData = sortByRating(processedData, sortValue);
+
+    // Clear previous elements
+    const container = document.getElementById('workout-container');
+    if (container) container.innerHTML = '';
+
+    // FIX 3: Added render call to actually display cards on DOM
+    exerciseList("Live Search Results", processedData);
+}
+
+function setupEventListeners() {
+    const searchEl = document.getElementById('search-input');
+    const filterEl = document.getElementById('filter-select');
+    const sortEl = document.getElementById('sort-select');
+
+    if (searchEl) searchEl.addEventListener('input', renderDynamicUI);
+    if (filterEl) filterEl.addEventListener('change', renderDynamicUI);
+    if (sortEl) sortEl.addEventListener('change', renderDynamicUI);
+}
+
+// Execute application
 FitnessApp();

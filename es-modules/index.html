@@ -56,12 +56,58 @@
             font-weight: bold;
             font-size: 0.85rem;
         }
+        .controls-container {
+            background: white; 
+            padding: 20px; 
+            margin-bottom: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            display: flex;
+            justify-content: space-between; 
+            gap: 15px; 
+            flex-wrap: wrap; 
+            max-width: 1000px; 
+            margin-left: auto; 
+            margin-right: auto;
+        }
+        .searchBox {
+            flex: 1;
+            min-width: 200px; 
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px; 
+            font-size: 1rem;
+        }
+        .slectBox {
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <h1 id="app-title">Fitness Tracker ES Modules Demo</h1>
     <!-- <div id="stats-summary" class="stats-summary">Loading stats...</div> -->
-
+    <div class="controls-container">
+        <input type="text" id="search-input" placeholder="Search exercises by name...">
+        <div>
+            <select class="slectBox" id="filter-select">
+                <option value="All">All Muscles</option>
+                <option value="Chest">Chest</option>
+                <option value="Legs">Legs</option>
+                <option value="Core">Core</option>
+                <option value="Arms">Arms</option>
+            </select>
+            
+            <select class="slectBox" id="sort-select">
+                <option value="default">Sort By: Default</option>
+                <option value="rating-high">Rating (High to Low)</option>
+                <option value="duration-low">Duration (Low to High)</option>
+            </select>
+        </div>
+    </div>
     <div class="workout-grid" id="workout-container">
         <p>Loading exercises from API...</p>
     </div>
