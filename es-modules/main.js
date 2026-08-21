@@ -1,20 +1,28 @@
 import { fetchExercises } from "./api.js";
-import { filterByTarget, calculateTotalTime, sortByRating, searchByName } from "./helpers.js";
-import { exerciseList, renderTitle } from "./ui.js";
+import { filterByTarget, sortByRating, searchByName } from "./helpers.js";
+import { exerciseList, renderTitle, renderLoading, renderError, clearStatus } from "./ui.js";
 
 let allExercises = [];
 
-async function FitnessApp() {
+async function initApp() {
     renderTitle();
 
-    // 1. Fetch Data
-    allExercises = await fetchExercises();
+    renderLoading();
 
-    // 2. Initial Render
-    renderDynamicUI();
+    try {
+        allExercises = await fetchExercises();
+        
+        clearStatus();
+        renderDynamicUI();
+        setupEventListeners();
 
-    // 3. Set Event Listeners
-    setupEventListeners();
+    } catch (error) {
+        console.error("App Initialization Error:", error.message);
+        renderError(error.message, () => {
+            console.log("Retrying data fetch...");
+            initApp(); // Re-trigger App initialization on Retry
+        });
+    }
 }
 
 function renderDynamicUI() {
@@ -22,22 +30,15 @@ function renderDynamicUI() {
     const filterEl = document.getElementById('filter-select');
     const sortEl = document.getElementById('sort-select');
 
-    // Safe extraction of values
     const searchTerm = searchEl ? searchEl.value : "";
     const filterValue = filterEl ? filterEl.value : "All";
     const sortValue = sortEl ? sortEl.value : "default";
 
-    // Data Processing Pipeline
     let processedData = searchByName(allExercises, searchTerm);
     processedData = filterByTarget(processedData, filterValue);
     processedData = sortByRating(processedData, sortValue);
 
-    // Clear previous elements
-    const container = document.getElementById('workout-container');
-    if (container) container.innerHTML = '';
-
-    // FIX 3: Added render call to actually display cards on DOM
-    exerciseList("Live Search Results", processedData);
+    exerciseList(processedData);
 }
 
 function setupEventListeners() {
@@ -50,5 +51,5 @@ function setupEventListeners() {
     if (sortEl) sortEl.addEventListener('change', renderDynamicUI);
 }
 
-// Execute application
-FitnessApp();
+// Start Application
+initApp();
